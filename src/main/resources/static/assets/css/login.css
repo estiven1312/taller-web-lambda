@@ -1,0 +1,78 @@
+@font-face {
+    font-family: 'LilitaOne';
+    src: url('../fonts/LilitaOneRegular.ttf');
+}
+@font-face {
+    font-family: 'Lalezar';
+    src: url('../fonts/Lalezar-Regular.ttf');
+}
+
+
+body {
+    background-image: url("../img/Fondo_2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(115, 169, 173, .6);
+    border-radius: 50px;
+    border-style: none !important;
+    padding-bottom: 2%;
+}
+
+h1.title-lambda {
+    display: inline-block;
+    font-size: 6rem;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'LilitaOne', sans-serif;
+    vertical-align: middle;
+    color: #ffffff;
+}
+
+.logo-lambda {
+    width: 250px;
+}
+
+.input-box{
+    background-color: #C3EDC0;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    font-family: 'Lalezar', sans-serif;
+    outline: none !important;
+    border-style: none;
+}
+
+.label-text{
+    font-size: 2rem;
+    font-family: 'Lalezar', sans-serif;
+}
+
+.recover-password{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: black;
+    font-family: 'Lalezar', sans-serif;
+}
+
+.btn-login{
+    background-color: #C3EDC0;
+    padding: 1rem;
+    color: black;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    font-family: 'Lalezar', sans-serif;
+    outline: none !important;
+    border-style: none;
+}
+.btn-login:hover{
+    background-color: #8eac8c;
+
+}

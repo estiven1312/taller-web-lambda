@@ -1,0 +1,22 @@
+package com.lambda.pe.lambdaapp.repository;
+
+import com.lambda.pe.lambdaapp.domain.model.Cubiculo;
+import com.lambda.pe.lambdaapp.domain.model.Estacionamiento;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Date;
+import java.util.List;
+
+public interface EstacionamientoRepository extends JpaRepository<Estacionamiento, Long> {
+    @Query("SELECT c FROM Cubiculo c WHERE c.id NOT IN (" +
+            "SELECT r.estacionamiento.id FROM ReservaEstacionamiento r WHERE " +
+            "(" +
+            "(r.fechaInicio <= :dateInit AND r.fechaFin > :dateInit) OR " +
+            "(r.fechaInicio < :dateEnd AND r.fechaFin >= :dateEnd) OR " +
+            "(r.fechaInicio >= :dateInit AND r.fechaFin <= :dateEnd) " +
+            ")" +
+            ")")
+    List<Cubiculo> findAvailableCubiculos(@Param("dateInit") Date dateInit, @Param("dateEnd") Date dateEnd);
+}

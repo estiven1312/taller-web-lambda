@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'LilitaOne';
+    src: url('../../fonts/LilitaOneRegular.ttf');
+}
+@font-face {
+    font-family: 'Lalezar';
+    src: url('../../fonts/Lalezar-Regular.ttf');
+}
+
+.nav-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav-title span{
+    text-align: center;
+    font-family: 'LilitaOne', sans-serif;
+    vertical-align: middle;
+    color: aliceblue;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #C3EDC0 !important;
+}
+#navbar-personalized{
+    height: 5rem;
+    background-color: #73A9AD !important;
+}
+
+.left-bar-color {
+    background-color: #C3EDC0 !important;
+    border: none !important;
+}
+
+.list-group a:hover{
+    background-color: #73A9AD !important;
+    color: aliceblue;
+}
+
