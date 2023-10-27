@@ -11,18 +11,25 @@
     int year = Year.now().getValue();
 %>
 <!-- Footer -->
-<footer class="bg-body-tertiary text-center ">
+<footer class="bg-body-tertiary text-center footer-lambda">
     <!-- Grid container -->
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
         <%out.print(year);%> @Copyright:
-        <a class="text-dark" href="./home">Lambda Project</a>
+        <a class="text-dark" href="<%=request.getContextPath()%>/home">Lambda Project</a>
     </div>
     <!-- Copyright -->
 
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"
+></script>
 </body>
 </html>

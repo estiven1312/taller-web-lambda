@@ -1,5 +1,6 @@
 package com.lambda.pe.lambdaapp.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,7 +16,8 @@ public @Data class Visitante {
     private String dni;
     private String telefono;
     private String correo;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idReservaVisita")
     private ReservaVisita reservaVisita;
 

@@ -19,9 +19,8 @@ public class User {
     private String numeroDocumentoIdentificacion;
     private String correo;
     private String username;
-    @JsonIgnore
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<Role> roles;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rolId")
+    private Role rol;
 }

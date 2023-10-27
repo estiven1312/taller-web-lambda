@@ -15,10 +15,10 @@ public class ReservaSala {
     private Date horaInicio;
     private Date horaFin;
     private Integer cantidadPersonas;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idResponsible")
     private User responsible;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idSala")
     private Sala sala;
 

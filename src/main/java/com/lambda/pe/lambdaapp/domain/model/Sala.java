@@ -11,7 +11,7 @@ public class Sala {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "idPiso")
     private Piso piso;
     private Boolean haveTv;

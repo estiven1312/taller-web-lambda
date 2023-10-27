@@ -12,7 +12,7 @@ public class Estacionamiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String numero;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idPiso")
     private Piso piso;
 }

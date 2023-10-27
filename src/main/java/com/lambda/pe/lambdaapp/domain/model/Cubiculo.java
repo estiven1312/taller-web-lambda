@@ -13,7 +13,7 @@ public class Cubiculo {
     private Long id;
     private Boolean computadoraInd;
     private Boolean segundaPantallaInd;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idPiso")
     private Piso piso;
 }

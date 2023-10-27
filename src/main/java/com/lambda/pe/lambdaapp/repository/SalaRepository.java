@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface SalaRepository extends JpaRepository<Sala, Long> {
-    @Query("SELECT c FROM Cubiculo c WHERE c.id NOT IN (" +
+    @Query("SELECT c FROM Sala c WHERE c.id NOT IN (" +
             "SELECT r.sala.id FROM ReservaSala r WHERE " +
             "(" +
             "(r.horaInicio <= :dateInit AND r.horaFin > :dateInit) OR " +
@@ -18,5 +18,5 @@ public interface SalaRepository extends JpaRepository<Sala, Long> {
             "(r.horaInicio >= :dateInit AND r.horaFin <= :dateEnd) " +
             ")" +
             ")")
-    List<Cubiculo> findAvailableCubiculos(@Param("dateInit") Date dateInit, @Param("dateEnd") Date dateEnd);
+    List<Sala> findAvailableCubiculos(@Param("dateInit") Date dateInit, @Param("dateEnd") Date dateEnd);
 }

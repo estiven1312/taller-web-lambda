@@ -1,5 +1,6 @@
 package com.lambda.pe.lambdaapp.service.impl;
 
+import com.lambda.pe.lambdaapp.domain.dto.UserDTO;
 import com.lambda.pe.lambdaapp.domain.model.Role;
 import com.lambda.pe.lambdaapp.domain.model.User;
 import com.lambda.pe.lambdaapp.repository.RolRepository;
@@ -13,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -45,6 +47,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+
     @Override
     public void logout(HttpSession httpSession){
         httpSession.setAttribute(Constants.FLAG_SESSION.label, false);
@@ -64,11 +68,33 @@ public class UserServiceImpl implements UserService {
             user.setUsername(username);
             user.setPassword(password);
             Role role = rolRepository.findByNombre("COLABORADOR");
-            user.setRoles(new HashSet<>());
-            user.getRoles().add(role);
+            user.setRol(role);
             userRepository.save(user);
         }catch (Exception ex){
             LOGGER.error(ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public Map<String, String> registerUser(UserDTO userDTO, HttpSession httpSession) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        try{
+            User user = userRepository.getReferenceById(userDTO.getId());
+            user.setNombres(userDTO.getNombres());
+            user.setApellidos(userDTO.getApellidos());
+            user.setTelefono(userDTO.getTelefono());
+            user.setNumeroDocumentoIdentificacion(userDTO.getNumeroDocumentoIdentificacion());
+            user.setCorreo(userDTO.getCorreo());
+            user.setUsername(userDTO.getUsername());
+            user.setPassword(userDTO.getPassword());
+            userRepository.save(user);
+            httpSession.setAttribute(Constants.USER_KEY_SESSION.label, user);
+            hashMap.put("STATUS", "OK");
+            return hashMap;
+        }catch (Exception ex){
+            LOGGER.error(ex.getMessage(), ex);
+            hashMap.put("STATUS", "FAIL");
+            return hashMap;
         }
     }
 }
