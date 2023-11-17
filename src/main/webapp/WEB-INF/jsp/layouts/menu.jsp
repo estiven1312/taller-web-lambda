@@ -22,9 +22,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-    <script src="<%=request.getContextPath()%>/assets/js/modules/estacionamiento.js" type="text/javascript"></script>
-    <script src="<%=request.getContextPath()%>/assets/js/modules/salas.js" type="text/javascript"></script>
-    <script src="<%=request.getContextPath()%>/assets/js/modules/perfil.js" type="text/javascript"></script>
 
     <title>Lambda Project</title>
 </head>
@@ -78,7 +75,7 @@
          id="offcanvasDarkNavbar" aria-labelledby="left-menuLabel">
         <div class="offcanvas-header">
             <a class="navbar-brand" href="#">
-                <img src="assets/img/complete-logo.png" alt="" class="complete_logo" />
+                <img src="<%=request.getContextPath()%>/assets/img/complete-logo.png" alt="" class="complete_logo" />
             </a>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>

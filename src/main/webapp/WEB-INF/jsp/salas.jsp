@@ -1,6 +1,6 @@
-<%@ page import="com.lambda.pe.lambdaapp.domain.model.ReservaSala" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.lambda.pe.lambdaapp.util.DateUtil" %><%--
+<%@ page import="com.lambda.pe.lambdaapp.util.DateUtil" %>
+<%@ page import="com.lambda.pe.lambdaapp.domain.model.Reserva" %><%--
   Created by IntelliJ IDEA.
   User: Usuario
   Date: 20/10/2023
@@ -9,10 +9,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<ReservaSala> reservas = (List<ReservaSala>) request.getAttribute("reservas");
+    List<Reserva> reservas = (List<Reserva>) request.getAttribute("reservas");
 %>
 <jsp:include page="layouts/menu.jsp"></jsp:include>
-<jsp:include page="layouts/news.jsp"></jsp:include>
 <main
         class="d-flex align-items-center justify-content-center flex-column"
 >
@@ -163,11 +162,11 @@
         >
             <h2 class="text fw-bold text-break">Sala</h2>
             <p class="text fw-bold text-break text-black">
-                <%=reservas.get(i).getSala().getId()%>
+                <%=reservas.get(i).getAmbiente().getNombreAmbiente()%>
                 <br />
-                Fecha:  <%=DateUtil.convertDateToString(reservas.get(i).getHoraInicio(), DateUtil.FORMAT_DATE)%>
+                Fecha:  <%=DateUtil.convertDateToString(reservas.get(i).getInit(), DateUtil.FORMAT_DATE)%>
                 <br />
-                Hora: <%= DateUtil.convertDateToString(reservas.get(i).getHoraInicio(), DateUtil.FORMAT_HOUR)%> - <%= DateUtil.convertDateToString(reservas.get(i).getHoraFin(), "HH:mm")%>
+                Hora: <%= DateUtil.convertDateToString(reservas.get(i).getInit(), DateUtil.FORMAT_HOUR)%> - <%= DateUtil.convertDateToString(reservas.get(i).getEnd(), DateUtil.FORMAT_HOUR)%>
             </p>
         </button>
         <%
@@ -212,9 +211,7 @@
                                         id="numeroSalaReserva"
                                         class="form-select form-control"
                                 >
-                                    <option selected value="1" class="text">1</option>
-                                    <option value="2" class="text">2</option>
-                                    <option value="3" class="text">3</option>
+
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -224,6 +221,7 @@
                                 >Fecha</label
                                 >
                                 <input
+                                        readonly="readonly"
                                         type="date"
                                         class="form-control text"
                                         id="fechaSalaReserva"
@@ -236,6 +234,7 @@
                                 >Hora Inicio</label
                                 >
                                 <input
+                                        readonly="readonly"
                                         type="time"
                                         class="form-control text"
                                         id="horaInicioSalaReserva"
@@ -244,11 +243,13 @@
                             <div class="mb-3">
                                 <label
                                         for="horaFinSalaReserva"
+
                                         class="col-form-label text fw-bold"
                                 >Hora Fin</label
                                 >
                                 <input
                                         type="time"
+                                        readonly="readonly"
                                         class="form-control text"
                                         id="horaFinSalaReserva"
                                 />
@@ -264,6 +265,7 @@
                             Eliminar
                         </button>
                         <button
+                                id="buttonEditarReservaSala"
                                 type="button"
                                 class="text btn btn-warning border-0 rounded-2 py-2 px-3 text-black button fw-bold"
                         >
@@ -281,5 +283,8 @@
             </div>
         </div>
     </div>
+
 </main>
+<script src="<%=request.getContextPath()%>/assets/js/modules/salas.js" type="text/javascript"></script>
+
 <jsp:include page="layouts/footer.jsp"></jsp:include>

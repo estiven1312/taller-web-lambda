@@ -19,6 +19,10 @@ public @Data class Visitante {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idReservaVisita")
-    private ReservaVisita reservaVisita;
+    private Reserva reservaVisita;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idReservaEstacionamiento")
+    private Reserva reservaEstacionamiento;
 
 }

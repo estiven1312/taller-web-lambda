@@ -1,0 +1,162 @@
+package com.lambda.pe.lambdaapp.service.impl;
+
+import com.lambda.pe.lambdaapp.domain.dto.VisitaDTO;
+import com.lambda.pe.lambdaapp.domain.model.*;
+import com.lambda.pe.lambdaapp.domain.util.Response;
+import com.lambda.pe.lambdaapp.repository.AmbienteRepository;
+import com.lambda.pe.lambdaapp.repository.CatalogoDetalleRepository;
+import com.lambda.pe.lambdaapp.repository.ReservaRepository;
+import com.lambda.pe.lambdaapp.repository.VisitaRepository;
+import com.lambda.pe.lambdaapp.service.VisitaService;
+import com.lambda.pe.lambdaapp.util.CatalogoEnum;
+import com.lambda.pe.lambdaapp.util.DateUtil;
+import com.lambda.pe.lambdaapp.util.EstadoReservaEnum;
+import com.lambda.pe.lambdaapp.util.JasperReportUtil;
+import net.sf.jasperreports.engine.JRException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.FileNotFoundException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class VisitaServiceImpl implements VisitaService {
+    Logger LOGGER = LoggerFactory.getLogger(VisitaServiceImpl.class);
+    private final VisitaRepository visitaRepository;
+    private final CatalogoDetalleRepository catalogoDetalleRepository;
+    private final JasperReportUtil jasperReportUtil;
+    private final AmbienteRepository ambienteRepository;
+    private final ReservaRepository reservaRepository;
+    public VisitaServiceImpl(VisitaRepository visitaRepository, CatalogoDetalleRepository catalogoDetalleRepository, JasperReportUtil jasperReportUtil, AmbienteRepository ambienteRepository, ReservaRepository reservaService) {
+        this.visitaRepository = visitaRepository;
+        this.catalogoDetalleRepository = catalogoDetalleRepository;
+        this.jasperReportUtil = jasperReportUtil;
+        this.ambienteRepository = ambienteRepository;
+        this.reservaRepository = reservaService;
+    }
+    @Override
+
+    public List<Visitante> visitasActivas(User user){
+        return visitaRepository.getVisitasByUser(user.getId());
+    }
+
+    @Override
+    public byte[] getReporte() throws JRException, FileNotFoundException {
+        List<VisitaDTO> visitaDTOS = getVisitantesSeguridadPorDia().stream().map(visitante -> {
+            VisitaDTO visitaDTO = new VisitaDTO();
+            visitaDTO.setNombres(visitante.getNombres());
+            visitaDTO.setApellidos(visitante.getApellidos());
+            visitaDTO.setFechaVisita(visitante.getReservaVisita().getInit());
+            visitaDTO.setDni(visitante.getDni());
+            visitaDTO.setCorreo(visitante.getCorreo());
+            return visitaDTO;
+        }).toList();
+        return jasperReportUtil.exportToPdf(visitaDTOS);
+    }
+    @Override
+
+    public Response deleteVisita(Long id){
+        Response response = new Response();
+        try{
+            Visitante visitante = visitaRepository.getReferenceById(id);
+            if(visitante.getReservaEstacionamiento() != null){
+                reservaRepository.delete(visitante.getReservaEstacionamiento());
+                visitante.setReservaEstacionamiento(null);
+            }
+            reservaRepository.delete(visitante.getReservaVisita());
+            visitante.setReservaVisita(null);
+            visitaRepository.delete(visitante);
+            response.setId(id.toString());
+            response.setMessage("OK");
+            response.setHttpStatus(HttpStatus.OK);
+        } catch (Exception ex){
+            LOGGER.error(ex.getMessage(), ex);
+            response.setId(id.toString());
+            response.setMessage("FAIL");
+            response.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
+    }
+    @Override
+    public List<Visitante> getVisitantesSeguridadPorDia(){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.set(Calendar.HOUR_OF_DAY, 23);
+        cal2.set(Calendar.MINUTE, 59);
+        cal2.set(Calendar.SECOND, 59);
+        cal2.set(Calendar.MILLISECOND, 999);
+        return visitaRepository.getVisitasFromToday(cal.getTime(), cal2.getTime());
+    }
+    @Override
+    @Transactional
+    public Response saveVisita(VisitaDTO visitaDTO, User user){
+        Response response = new Response();
+        try{
+            Reserva reserva = new Reserva();
+            CatalogoDetalle catalogoDetalle = catalogoDetalleRepository.getByAbreviatura(CatalogoEnum.ESTADO_RESERVA.getLabel(), EstadoReservaEnum.VIGENTE.getLabel());
+            Reserva reservaEstacionamiento = null;
+            Date init = DateUtil.convertStringToDate(visitaDTO.getDate() + " " + visitaDTO.getInit(), DateUtil.FORMAT_DATE_HOUR_MIN);
+            Date end = DateUtil.convertStringToDate(visitaDTO.getDate() + " " + visitaDTO.getEnd(), DateUtil.FORMAT_DATE_HOUR_MIN);
+            if(visitaDTO.getIdEstacionamiento() != null){
+                reservaEstacionamiento = new Reserva();
+                reservaEstacionamiento.setResponsible(null);
+
+                Ambiente estacionamiento = ambienteRepository.getReferenceById(visitaDTO.getIdEstacionamiento());
+                reservaEstacionamiento.setAmbiente(estacionamiento);
+                reservaEstacionamiento.setInit(init);
+                reservaEstacionamiento.setEnd(end);
+                reservaEstacionamiento.setEstado(catalogoDetalle);
+                reservaRepository.save(reservaEstacionamiento);
+
+            }
+            Ambiente sala = null;
+
+            if(visitaDTO.getIdAmbiente() != null){
+                sala = ambienteRepository.getReferenceById(visitaDTO.getIdAmbiente());
+            }
+            reserva.setResponsible(user);
+            reserva.setAmbiente(sala);
+            reserva.setInit(init);
+            reserva.setEnd(end);
+            reserva.setEstado(catalogoDetalle);
+            reservaRepository.save(reserva);
+            Visitante visitante = new Visitante();
+            if(visitaDTO.getId() != null) {
+                visitante = visitaRepository.getReferenceById(visitaDTO.getId());
+                if(visitante.getReservaEstacionamiento() != null){
+                    reservaRepository.deleteById(visitante.getReservaEstacionamiento().getId());
+                }
+                reservaRepository.deleteById(visitante.getReservaVisita().getId());
+
+            }
+            visitante.setNombres(visitaDTO.getNombres());
+            visitante.setDni(visitaDTO.getDni());
+            visitante.setApellidos(visitaDTO.getApellidos());
+            visitante.setCorreo(visitaDTO.getCorreo());
+            visitante.setTelefono(visitaDTO.getTelefono());
+            visitante.setReservaVisita(reserva);
+            visitante.setReservaEstacionamiento(reservaEstacionamiento);
+            visitaRepository.save(visitante);
+            response.setId(String.valueOf(visitante.getId()));
+            response.setMessage("OK");
+            response.setHttpStatus(HttpStatus.OK);
+            return response;
+        } catch (Exception ex){
+            LOGGER.error(ex.getMessage(), ex);
+            response.setId(null);
+            response.setMessage("FAIL");
+            response.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            return response;
+        }
+    }
+
+}

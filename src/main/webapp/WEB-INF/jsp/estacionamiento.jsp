@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.lambda.pe.lambdaapp.domain.model.Estacionamiento" %>
-<%@ page import="com.lambda.pe.lambdaapp.domain.model.ReservaEstacionamiento" %>
-<%@ page import="com.lambda.pe.lambdaapp.util.DateUtil" %><%--
+
+<%@ page import="com.lambda.pe.lambdaapp.util.DateUtil" %>
+<%@ page import="com.lambda.pe.lambdaapp.domain.model.Reserva" %><%--
   Created by IntelliJ IDEA.
   User: Usuario
   Date: 20/10/2023
@@ -11,10 +11,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    List<ReservaEstacionamiento> reservas = (List<ReservaEstacionamiento>) request.getAttribute("reservas");
+    List<Reserva> reservas = (List<Reserva>) request.getAttribute("reservas");
 %>
 <jsp:include page="layouts/menu.jsp"></jsp:include>
-<jsp:include page="layouts/news.jsp"></jsp:include>
 <main
         class="d-flex align-items-center justify-content-center     flex-column"
 >
@@ -160,18 +159,18 @@
 
 
         <button
-                onclick="dataOfReservation(<%=reservas.get(i).getId()%>)"
+                onclick="dataOfReservationEstacionamiento(<%=reservas.get(i).getId()%>)"
                 class="button button--light button--small shadow rounded-4 p-4 m-3"
                 data-bs-toggle="modal"
                 data-bs-target="#verReservacionEstacionamiento"
         >
             <h2 class="text fw-bold text-break">Estacionamiento</h2>
             <p class="text fw-bold text-break text-black">
-                <%=reservas.get(i).getEstacionamiento().getNumero()%>
+                <%=reservas.get(i).getAmbiente().getNombreAmbiente()%>
                 <br />
-                Fecha: <%=DateUtil.convertDateToString(reservas.get(i).getFechaInicio(), DateUtil.FORMAT_DATE)%>
+                Fecha: <%=DateUtil.convertDateToString(reservas.get(i).getInit(), DateUtil.FORMAT_DATE)%>
                 <br />
-                Hora: <%= DateUtil.convertDateToString(reservas.get(i).getFechaInicio(), DateUtil.FORMAT_HOUR)%> - <%= DateUtil.convertDateToString(reservas.get(i).getFechaFin(), "HH:mm")%>
+                Hora: <%= DateUtil.convertDateToString(reservas.get(i).getInit(), DateUtil.FORMAT_HOUR)%> - <%= DateUtil.convertDateToString(reservas.get(i).getEnd(), DateUtil.FORMAT_HOUR)%>
             </p>
         </button>
 
@@ -217,7 +216,7 @@
                                 >
                                 <select
                                         id="numeroEstacionamientoReserva"
-                                        class="form-select form-control" readonly="readonly" disabled="disabled"
+                                        class="form-select form-control"
                                 >
 
                                 </select>
@@ -269,6 +268,7 @@
                             Eliminar
                         </button>
                         <button
+                                id="buttonEditarReservaEstacionamiento"
                                 type="button"
                                 class="text btn btn-warning border-0 rounded-2 py-2 px-3 text-black button fw-bold"
                         >
@@ -287,4 +287,5 @@
         </div>
     </div>
 </main>
+<script src="<%=request.getContextPath()%>/assets/js/modules/estacionamiento.js" type="text/javascript"></script>
 <jsp:include page="layouts/footer.jsp"></jsp:include>

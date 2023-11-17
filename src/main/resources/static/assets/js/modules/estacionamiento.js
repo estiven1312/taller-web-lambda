@@ -4,7 +4,6 @@ let initDate = null;
 let endDate = null;
 $(document).ready(async function () {
 
-    await getEstacionamientos();
 
     $("#registrarReservaNueva").click(async function () {
         console.log( $("#fechaEstacionamientoReservaRequest").val());
@@ -14,7 +13,35 @@ $(document).ready(async function () {
             date: $("#fechaEstacionamientoReservaRequest").val(),
             initHour: $("#horaInicioEstacionamientRequest").val(),
             endHour: $("#horaFinEstacionamientoRequest").val(),
-            idEstacionamiento: $("#numeroEstacionamientoReservaRequest").val(),
+            idAmbiente: $("#numeroEstacionamientoReservaRequest").val(),
+
+        }
+        await $.ajax({
+            type: "POST",
+            url: wsRoot + 'estacionamiento/reservar',
+            data: JSON.stringify(body),
+            contentType: 'application/json',
+            error: function () {
+                alert("Algo ocurrió. Recargue la página, por favor");
+            },
+            success: function (data, href, xhr) {
+                if(data.STATUS === "OK"){
+                    setTimeout(function(){window.location = window.location}, 1000);
+                }
+
+            }
+        });
+    });
+    $("#buttonEditarReservaEstacionamiento").click(async function () {
+        console.log( $("#fechaSalaReservaRequest").val());
+        console.log( $("#horaInicioSalaReservaRequest").val());
+        console.log( $("#horaFinSalaReservaRequest").val());
+        let body = {
+            date: $("#fechaEstacionamientoReserva").val(),
+            initHour: $("#horaInicioEstacionamientoReserva").val(),
+            endHour: $("#horaFinEstacionamientoReserva").val(),
+            idAmbiente: $("#numeroEstacionamientoReserva").val(),
+            idReserva: indexSelectedSala,
 
         }
         await $.ajax({
@@ -59,12 +86,13 @@ $(document).ready(async function () {
 
 
 function drawCombo(idComboBox, list) {
+    $(idComboBox).empty();
     $(idComboBox).append(`
             <option selected disabled>Seleccione</option>
         `);
     list.forEach(function (val, i) {
         $(idComboBox).append(`
-            <option value="${val.id}">${val.numero}</option>
+            <option value="${val.id}">${val.nombreAmbiente}</option>
         `);
     });
 }
@@ -125,10 +153,10 @@ async function deleteReservation(){
 
 
 function drawInfoReadOnly(data){
-    $("#fechaEstacionamientoReserva").val(getDataString(data.fechaInicio));
-    $("#horaInicioEstacionamientoReserva").val(getHours(data.fechaInicio));
-    $("#horaFinEstacionamientoReserva").val(getHours(data.fechaFin));
-    $("#numeroEstacionamientoReserva").val(data.estacionamiento.id)
+    $("#fechaEstacionamientoReserva").val(getDataString(data.init));
+    $("#horaInicioEstacionamientoReserva").val(getHours(data.end));
+    $("#horaFinEstacionamientoReserva").val(getHours(data.init));
+    $("#numeroEstacionamientoReserva").val(data.ambiente.id)
 }
 
 
@@ -160,4 +188,37 @@ function getHours(date) {
         return "";
     }
 
+}
+async function dataOfReservationEstacionamiento(index){
+    await $.ajax({
+        type: "GET",
+        url: wsRoot + 'estacionamiento/getReservaEstacionamiento/' + index,
+        contentType: 'application/json',
+        error: function () {
+            alert("Algo ocurrió. Recargue la página, por favor");
+        },
+        success: async function (data, href, status) {
+            console.log(data);
+            indexSelectedSala = data.id;
+            await getEstacionamientosDisponiblesByIndex(data.id);
+            drawInfoReadOnly(data);
+
+        }
+    });
+}
+
+async function  getEstacionamientosDisponiblesByIndex(index){
+    await $.ajax({
+        type: "GET",
+        url: wsRoot + 'estacionamiento/findEstacionamientosDisponiblesEdit/' + index,
+        contentType: 'application/json',
+        error: function () {
+            alert("Algo ocurrió. Recargue la página, por favor");
+        },
+        success: async function (data, href, status) {
+            console.log(data);
+            drawCombo("#numeroEstacionamientoReserva", data);
+
+        }
+    });
 }

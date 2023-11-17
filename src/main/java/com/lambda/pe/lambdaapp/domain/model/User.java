@@ -23,4 +23,17 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rolId")
     private Role rol;
+
+    private String rutaFoto;
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "idTipoIdentificacionCatalogo", referencedColumnName = "idCatalogo", insertable = true, updatable = true),
+            @JoinColumn(name = "idTipoIdentificacionCatalogoDetalle", referencedColumnName = "idItem", insertable = true, updatable = true)})
+    private CatalogoDetalle tipoDocIdentificacion;
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "idEstadoUsuarioCatalogo", referencedColumnName = "idCatalogo", insertable = true, updatable = true),
+            @JoinColumn(name = "idEstadoUsuarioCatalogoDetalle", referencedColumnName = "idItem", insertable = true, updatable = true)})
+    private CatalogoDetalle estadoUsuario;
 }

@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div id="carouselExampleCaptions" class="carousel slide">
-    <div class="carousel-inner" style="height: 280px;">
+    <div class="carousel-inner" >
         <div class="carousel-item active">
             <a style="text-decoration: none" href="#">
                 <div class="carousel-caption d-none d-md-block">

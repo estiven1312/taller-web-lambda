@@ -28,6 +28,15 @@
                 <img src="<%=request.getContextPath()%>/assets/img/estacionamientos.png" class="w-80 img-fluid" alt="" />
             </button>
         </a>
+        <a href="<%=request.getContextPath()%>/visitante"
+           class="d-flex align-items-center justify-content-center text-decoration-none button-management">
+            <button class="button button--light button--big shadow rounded-4 p-4 m-3">
+                <h2 class="text fw-bold text-break text-decoration-none">
+                    Visitas
+                </h2>
+                <img src="<%=request.getContextPath()%>/assets/img/visita.png" class="w-80 img-fluid" alt="" />
+            </button>
+        </a>
         <a href="<%=request.getContextPath()%>/user"
            class="d-flex align-items-center justify-content-center text-decoration-none button-management">
             <button class="button button--light button--big shadow rounded-4 p-4 m-3">
@@ -55,6 +64,45 @@
                 <img src="<%=request.getContextPath()%>/assets/img/estacionamientos.png" class="w-80 img-fluid" alt="" />
             </button>
         </a>
+        <%}%>
+
+        <% if(role.getNombre().equalsIgnoreCase("ADMIN")){ %>
+        <a href="<%=request.getContextPath()%>/ambiente"
+           class="d-flex align-items-center justify-content-center text-decoration-none button-management">
+            <button class="button button--light button--big shadow rounded-4 p-4 m-3">
+                <h2 class="text fw-bold text-break">Ambientes</h2>
+                <img src="<%=request.getContextPath()%>/assets/img/ambientes.png" class="w-80 img-fluid" alt="" />
+            </button>
+        </a>
+        <a href="<%=request.getContextPath()%>/usuario"
+           class="d-flex align-items-center justify-content-center text-decoration-none button-management">
+            <button class="button button--light button--big shadow rounded-4 p-4 m-3">
+                <h2 class="text fw-bold text-break text-decoration-none">
+                    Usuarios
+                </h2>
+                <img src="<%=request.getContextPath()%>/assets/img/user.png" class="w-80 img-fluid" alt="" />
+            </button>
+        </a>
+        <a href="<%=request.getContextPath()%>/comunicado"
+           class="d-flex align-items-center justify-content-center text-decoration-none button-management">
+            <button class="button button--light button--big shadow rounded-4 p-4 m-3">
+                <h2 class="text fw-bold text-break text-decoration-none">
+                    Comunicados
+                </h2>
+                <img src="<%=request.getContextPath()%>/assets/img/comunicado.png" class="w-80 img-fluid" alt="" />
+            </button>
+        </a>
+        <%}%>
+
+        <% if(role.getNombre().equalsIgnoreCase("SEGURIDAD")){ %>
+        <a href="<%=request.getContextPath()%>/visitante/seguridad"
+           class="d-flex align-items-center justify-content-center text-decoration-none button-management">
+            <button class="button button--light button--big shadow rounded-4 p-4 m-3">
+                <h2 class="text fw-bold text-break">Visitante</h2>
+                <img src="<%=request.getContextPath()%>/assets/img/visitante.png" class="w-80 img-fluid" alt="" />
+            </button>
+        </a>
+
         <%}%>
     </div>
 </main>

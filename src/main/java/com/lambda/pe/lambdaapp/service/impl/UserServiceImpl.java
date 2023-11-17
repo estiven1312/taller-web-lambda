@@ -1,5 +1,6 @@
 package com.lambda.pe.lambdaapp.service.impl;
 
+import com.lambda.pe.lambdaapp.config.FileConfig;
 import com.lambda.pe.lambdaapp.domain.dto.UserDTO;
 import com.lambda.pe.lambdaapp.domain.model.Role;
 import com.lambda.pe.lambdaapp.domain.model.User;
@@ -14,19 +15,21 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
     Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final FileConfig fileConfig;
+
     private final UserRepository userRepository;
 
     private final RolRepository rolRepository;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RolRepository rolRepository){
+    public UserServiceImpl(FileConfig fileConfig, UserRepository userRepository, RolRepository rolRepository){
+        this.fileConfig = fileConfig;
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
     }
@@ -80,6 +83,16 @@ public class UserServiceImpl implements UserService {
         HashMap<String, String> hashMap = new HashMap<>();
         try{
             User user = userRepository.getReferenceById(userDTO.getId());
+            if(userDTO.getMultipartFile() != null && !userDTO.getMultipartFile().isEmpty()){
+                String uuid = UUID.randomUUID().toString();
+                String filename = uuid +
+                        userDTO.getMultipartFile().getOriginalFilename().substring(userDTO.getMultipartFile().getOriginalFilename().lastIndexOf("."));
+                user.setRutaFoto(filename);
+                if(Files.notExists(Paths.get(fileConfig.getSTORAGEPATH()))){
+                    Files.createDirectories(Paths.get(fileConfig.getSTORAGEPATH()));
+                }
+                Files.copy(userDTO.getMultipartFile().getInputStream(), Paths.get(fileConfig.getSTORAGEPATH()).resolve(filename));
+            }
             user.setNombres(userDTO.getNombres());
             user.setApellidos(userDTO.getApellidos());
             user.setTelefono(userDTO.getTelefono());

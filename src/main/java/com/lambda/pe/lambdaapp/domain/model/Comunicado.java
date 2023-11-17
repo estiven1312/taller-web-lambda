@@ -6,14 +6,19 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "Comunicado")
 @Data
 public class Comunicado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String mensajeComunicado;
+    private String descripcion;
     private String urlImagen;
     private Date fechaComunicado;
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "idCatalogoEstado", referencedColumnName = "idCatalogo", insertable = true, updatable = true),
+            @JoinColumn(name = "idCatalogoEstadoDetalle", referencedColumnName = "idItem", insertable = true, updatable = true)})
+    private CatalogoDetalle estado;
 
 }
