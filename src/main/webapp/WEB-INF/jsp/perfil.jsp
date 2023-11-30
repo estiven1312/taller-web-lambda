@@ -94,7 +94,7 @@
                         <input
                                 name="password"
                                 type="password"
-                                class="form-control" value="<%=user.getPassword()%>"
+                                class="form-control"
                                 id="contraseniaGerente"
                         />
                     </div>

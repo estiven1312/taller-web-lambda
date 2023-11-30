@@ -14,7 +14,6 @@
     List<Reserva> reservas = (List<Reserva>) request.getAttribute("reservas");
 %>
 <jsp:include page="layouts/menu.jsp"></jsp:include>
-<jsp:include page="layouts/news.jsp"></jsp:include>
 <main
         class="d-flex align-items-center justify-content-center     flex-column"
 >

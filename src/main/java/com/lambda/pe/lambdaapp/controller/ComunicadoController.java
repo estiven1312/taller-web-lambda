@@ -36,6 +36,7 @@ public class ComunicadoController {
         User user = (User) httpSession.getAttribute(Constants.USER_KEY_SESSION.label);
         List<Comunicado> comunicadoList = comunicadoService.listAllComunicados();
         model.addAttribute("comunicados", comunicadoList);
+        model.addAttribute("comunicadosSlider", comunicadoService.listAllComunicadosSlider());
 
         return "/comunicado_admin";
     }

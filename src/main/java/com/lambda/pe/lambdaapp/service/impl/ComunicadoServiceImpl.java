@@ -9,6 +9,7 @@ import com.lambda.pe.lambdaapp.repository.ComunicadoRepository;
 import com.lambda.pe.lambdaapp.service.ComunicadoService;
 import com.lambda.pe.lambdaapp.util.CatalogoEnum;
 import com.lambda.pe.lambdaapp.util.CatalogoEstadosEnum;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,10 @@ public class ComunicadoServiceImpl implements ComunicadoService {
     @Override
     public List<Comunicado> listAllComunicados() {
         return comunicadoRepository.findAllComunicadosActivos(CatalogoEstadosEnum.ESTADO_ACTIVO.getLabel());
+    }
+    @Override
+    public List<Comunicado> listAllComunicadosSlider() {
+        return comunicadoRepository.findSliderComunicados(CatalogoEstadosEnum.ESTADO_ACTIVO.getLabel(), PageRequest.of(0,5));
     }
     @Override
     public ResponseEntity<Comunicado> getById(Long id){

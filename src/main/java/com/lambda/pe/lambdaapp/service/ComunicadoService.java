@@ -18,5 +18,7 @@ public interface ComunicadoService {
 
     Response deleteComunicado(Long id);
 
+    List<Comunicado> listAllComunicadosSlider();
+
     ResponseEntity<Comunicado> getById(Long id);
 }

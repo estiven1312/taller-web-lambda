@@ -41,7 +41,7 @@ public class ReservaCubiculoController {
     }
 
     @RequestMapping( method = RequestMethod.GET)
-    public String getPage(Model model, HttpSession httpSession){
+    public String getPage(@RequestParam(value = "initDate", required = false) String initDate, @RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession httpSession){
         User user = (User) httpSession.getAttribute(Constants.USER_KEY_SESSION.label);
         List<Reserva> cubiculos = reservaService.getReservasByUser(user, TipoAmbienteEnum.CUBICULO.getLabel());
         model.addAttribute("reservas",cubiculos);

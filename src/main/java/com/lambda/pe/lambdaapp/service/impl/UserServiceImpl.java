@@ -8,6 +8,7 @@ import com.lambda.pe.lambdaapp.repository.RolRepository;
 import com.lambda.pe.lambdaapp.repository.UserRepository;
 import com.lambda.pe.lambdaapp.service.UserService;
 import com.lambda.pe.lambdaapp.util.Constants;
+import com.lambda.pe.lambdaapp.util.PasswordUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,9 @@ public class UserServiceImpl implements UserService {
             user.setNumeroDocumentoIdentificacion(userDTO.getNumeroDocumentoIdentificacion());
             user.setCorreo(userDTO.getCorreo());
             user.setUsername(userDTO.getUsername());
-            user.setPassword(userDTO.getPassword());
+            if(userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()){
+                user.setPassword(PasswordUtil.hashPassword(userDTO.getPassword()));
+            }
             userRepository.save(user);
             httpSession.setAttribute(Constants.USER_KEY_SESSION.label, user);
             hashMap.put("STATUS", "OK");

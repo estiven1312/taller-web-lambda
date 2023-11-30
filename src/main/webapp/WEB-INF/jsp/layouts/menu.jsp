@@ -85,7 +85,7 @@
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
                     <a class="nav-link active text fw-bold" aria-current="page"
-                       href="./panelManagement-Gerente.html">Inicio</a>
+                       href="<%=request.getContextPath()%>/home">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text fw-bold"
@@ -97,7 +97,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text fw-bold"
-                       href="./panelItem-MiInformacion-Gerente.html">Mi perfil</a>
+                       href="<%=request.getContextPath()%>/user">Mi perfil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text fw-bold" href="./login.html">Cerrar

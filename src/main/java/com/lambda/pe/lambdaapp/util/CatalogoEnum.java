@@ -4,7 +4,9 @@ public enum CatalogoEnum {
     ESTADO_AUDITORIA("AUDITORIA"),
     ESTADO_RESERVA("RESERVA"),
     ESTADO_INCIDENCIA("INCIDENCIA"),
+    ESTADO_USUARIO("ESTADO_USUARIO"),
     TIPO_AMBIENTE("AMBIENTE");
+
     private final String label;
 
     CatalogoEnum(String label) {
