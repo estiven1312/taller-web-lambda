@@ -225,7 +225,7 @@
                     <%=users.get(i).getRol().getNombre()%>
                 </td>
                 <td>
-                    <a  href="<%=request.getContextPath()+"/user-admin/delete/"+users.get(i).getId()%>" class="button btn-danger">Eliminar</a>
+                    <a  href="<%=request.getContextPath()+"/user-admin/delete/"+users.get(i).getId()%>" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
             <%

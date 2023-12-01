@@ -184,7 +184,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <div class="mw-70">
-                                                    <img src="<%=request.getContextPath()+"/resource/images/"+comunicados.get(i).getUrlImagen()%>">
+                                                    <img style="max-width: 200px;" src="<%=request.getContextPath()+"/resource/images/"+comunicados.get(i).getUrlImagen()%>">
                                                 </div>
                                                 <label
                                                         for="imagenEdit"

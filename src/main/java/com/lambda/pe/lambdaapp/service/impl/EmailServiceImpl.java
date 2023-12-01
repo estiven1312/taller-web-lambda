@@ -5,6 +5,7 @@ import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -18,6 +19,7 @@ public class EmailServiceImpl implements EmailService {
         this.mailSender = mailSender;
     }
 
+    @Async
     public void send(String from, String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
@@ -27,6 +29,7 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
+    @Async
     public void sendWithAttach(String from, String to, String subject,
                                String text, String attachName,
                                InputStreamSource inputStream) throws MessagingException {
