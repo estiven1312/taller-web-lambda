@@ -136,8 +136,89 @@
                         <%=comunicados.get(i).getDescripcion()%>
                     </td>
                     <td>
-                        <button class="button btn-primary">Editar</button>
-                        <button class="button btn-primary">Eliminar</button>
+                        <button class="button button--light button--small shadow rounded-4 p-4 m-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#verNoticia<%=comunicados.get(i).getId()%>">Editar</button>
+                        <div
+                                class="modal fade"
+                                id="verNoticia<%=comunicados.get(i).getId()%>"
+                                tabindex="-1"
+                                aria-labelledby="registrarReservacionEstacionamientoLabel"
+                                aria-hidden="true"
+                        >
+                            <div class="modal-dialog">
+                                <div class="modal-content my-modal border border-0">
+                                    <div
+                                            class="modal-header position-relative p-4 border border-0"
+                                            data-bs-theme="dark"
+                                    >
+                                        <h1
+                                                class="text modal-title fs-1 fw-bold text-center position-absolute top-20 start-50 translate-middle-x text-white"
+                                                id="exampleModalLabel"
+                                        >
+                                            Editar Comunicado
+                                        </h1>
+                                        <button
+                                                type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"
+                                        ></button>
+                                    </div>
+                                    <form method="post" action="comunicado/registrar" enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                            <input id="id" hidden="hidden" name="id" value="<%=comunicados.get(i).getId()%>" type="number">
+                                            <div class="mb-3">
+                                                <label
+                                                        for="descripcionEdit"
+                                                        class="col-form-label text fw-bold"
+                                                >Descripcion</label
+                                                >
+                                                <input
+                                                        type="text"
+                                                        class="form-control text"
+                                                        name="descripcion"
+                                                        id="descripcionEdit"
+                                                        value="<%=comunicados.get(i).getDescripcion()%>"
+                                                />
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="mw-70">
+                                                    <img src="<%=request.getContextPath()+"/resource/images/"+comunicados.get(i).getUrlImagen()%>">
+                                                </div>
+                                                <label
+                                                        for="imagenEdit"
+                                                        class="col-form-label text fw-bold"
+                                                >Imagen</label
+                                                >
+                                                <div class="mt-2">
+                                                    <input type="file" id="imagenEdit" name="imagen">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border border-0">
+                                            <button
+                                                    type="button"
+                                                    class="button btn btn-secondary text fw-bold"
+                                                    data-bs-dismiss="modal"
+                                            >
+                                                Cancelar
+                                            </button>
+                                            <button
+                                                    type="submit"
+                                                    id="editComunicado"
+                                                    class="text border-0 rounded-2 py-2 px-3 text-white button button--dark fw-bold"
+                                            >
+                                                Registrar
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <a  href="<%=request.getContextPath()+"/comunicado/delete/"+comunicados.get(i).getId()%>" class="button btn-danger">Eliminar</a>
                     </td>
                 </tr>
             <%

@@ -36,19 +36,23 @@ public class UserController {
     @RequestMapping(value = "/actualizar", method = RequestMethod.POST)
     public String actualizar(@RequestParam(name="imagen", required=false) MultipartFile imagen,
                              @RequestParam(name="id", required=false) Long id,
+                             @RequestParam(name="rol", required=false) Long rol,
+                             @RequestParam(name="tipoIdentificacion", required=false) String tipoIdentificacion,
                              @RequestParam("nombres") String nombres,
                              @RequestParam("apellidos") String apellidos,
                              @RequestParam("telefono") String telefono,
                              @RequestParam("numeroDocumentoIdentificacion") String numeroDocumentoIdentificacion,
                              @RequestParam("correo") String correo,
                              @RequestParam("username") String username,
-                             @RequestParam("password") String password,
+                             @RequestParam(value = "password", required = false) String password,
                              HttpSession httpSession){
         User user = (User) httpSession.getAttribute(Constants.USER_KEY_SESSION.label);
         UserDTO userDTO = new UserDTO();
         userDTO.setId(id);
         userDTO.setNombres(nombres);
         userDTO.setMultipartFile(imagen);
+        userDTO.setRol(rol);
+        userDTO.setTipoIdentificacion(tipoIdentificacion);
         userDTO.setApellidos(apellidos);
         userDTO.setTelefono(telefono);
         userDTO.setNumeroDocumentoIdentificacion(numeroDocumentoIdentificacion);

@@ -55,11 +55,11 @@ public class ComunicadoController {
         return "redirect:/comunicado";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response delete(@PathVariable("id") Long id,
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable("id") Long id,
                            HttpSession httpSession){
-
-        return  comunicadoService.deleteComunicado(id);
+        comunicadoService.deleteComunicado(id);
+        return "redirect:/comunicado";
     }
 
     @RequestMapping(value = "/info/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

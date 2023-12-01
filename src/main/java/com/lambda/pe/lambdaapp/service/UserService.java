@@ -19,6 +19,8 @@ public interface UserService {
 
     Boolean validateUser(String username, String password, HttpSession httpSession);
 
+    List<User> findActivos();
+
     void logout(HttpSession httpSession);
 
     void registerUser(
@@ -29,6 +31,8 @@ public interface UserService {
             String correo,
             String username,
             String password);
+
+    void deleteUser(Long id);
 
     Map<String, String> registerUser(UserDTO userDTO, HttpSession httpSession);
 }

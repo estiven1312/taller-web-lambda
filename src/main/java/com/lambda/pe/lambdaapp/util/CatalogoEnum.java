@@ -1,6 +1,7 @@
 package com.lambda.pe.lambdaapp.util;
 
 public enum CatalogoEnum {
+    TIPO_DOCUMENTO("TIPO_DOC"),
     ESTADO_AUDITORIA("AUDITORIA"),
     ESTADO_RESERVA("RESERVA"),
     ESTADO_INCIDENCIA("INCIDENCIA"),

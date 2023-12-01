@@ -8,7 +8,7 @@ public class PasswordUtil {
     private static int lengthPassword = 10;
 
 
-    public String generatePassword() {
+    public static String generatePassword() {
         return RandomStringUtils.random(lengthPassword, true, true);
     }
     /**

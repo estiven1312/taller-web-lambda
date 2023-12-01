@@ -74,7 +74,7 @@
                 <img src="<%=request.getContextPath()%>/assets/img/ambientes.png" class="w-80 img-fluid" alt="" />
             </button>
         </a>
-        <a href="<%=request.getContextPath()%>/usuario"
+        <a href="<%=request.getContextPath()%>/user-admin"
            class="d-flex align-items-center justify-content-center text-decoration-none button-management">
             <button class="button button--light button--big shadow rounded-4 p-4 m-3">
                 <h2 class="text fw-bold text-break text-decoration-none">
