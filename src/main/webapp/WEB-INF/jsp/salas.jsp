@@ -18,32 +18,6 @@
     <div
             class="pt-5 pb-4 d-flex flex-row flex-wrap align-items-center justify-content-center"
     >
-        <div class="m-2">
-            <form class="text d-flex flex-wrap" role="search">
-                <input
-                        type="date"
-                        class="form-control text m-2 filter-input"
-                        id="fechaInicioFiltro"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                />
-                <input
-                        type="date"
-                        class="form-control text m-2 filter-input"
-                        id="fechaFinFiltro"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                />
-                <button
-                        class="border border-0 rounded-2 py-2 px-3 text-white button button--dark m-2 fw-bold"
-                        type="submit"
-                >
-                    Search
-                </button>
-            </form>
-        </div>
         <button
                 class="button button--yellow py-1 px-3 text fw-bold rounded-2 my-2 mx-4 d-flex align-items-center justify-content-center flex-wrap"
                 data-bs-toggle="modal"

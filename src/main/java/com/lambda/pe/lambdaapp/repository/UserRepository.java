@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.username = :username")
     Optional<User> findUsuarioByUsernameAndPassword(@Param("username") String username);
+    @Query("SELECT u FROM User u WHERE u.rol.nombre = 'SEGURIDAD'")
+    List<User> findAdministrators();
 
     @Query("SELECT u FROM User u WHERE u.estadoUsuario.abreviatura IN ('USER_ACTIVE', 'USER_BLOCK')")
     List<User> findActivosOrBlocked();

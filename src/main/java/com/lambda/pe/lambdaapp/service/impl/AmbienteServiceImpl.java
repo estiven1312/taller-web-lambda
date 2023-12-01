@@ -78,6 +78,11 @@ public class AmbienteServiceImpl implements AmbienteService {
     public List<Ambiente> findAll(String catalogo, String tipo, String catalogoEstado, String estado){
         return ambienteRepository.findAllAmbientesByTipo(catalogo, tipo , catalogoEstado, estado );
     }
+
+    @Override
+    public List<Ambiente> findAmbientesActivos(){
+        return ambienteRepository.findAmbientesActivos();
+    }
     @Override
     public Response deleteAmbiente(Long id) {
         try{

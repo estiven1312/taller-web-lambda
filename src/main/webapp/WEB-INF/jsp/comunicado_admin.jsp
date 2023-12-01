@@ -136,7 +136,7 @@
                         <%=comunicados.get(i).getDescripcion()%>
                     </td>
                     <td>
-                        <button class="button button--light button--small shadow rounded-4 p-4 m-3"
+                        <button class="btn btn-primary"
                                 data-bs-toggle="modal"
                                 data-bs-target="#verNoticia<%=comunicados.get(i).getId()%>">Editar</button>
                         <div
@@ -218,7 +218,7 @@
                             </div>
                         </div>
 
-                        <a  href="<%=request.getContextPath()+"/comunicado/delete/"+comunicados.get(i).getId()%>" class="button btn-danger">Eliminar</a>
+                        <a  href="<%=request.getContextPath()+"/comunicado/delete/"+comunicados.get(i).getId()%>" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             <%

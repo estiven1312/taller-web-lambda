@@ -11,6 +11,8 @@ public interface AmbienteService {
 
     List<Ambiente> findAll(String catalogo, String tipo, String catalogoEstado, String estado);
 
+    List<Ambiente> findAmbientesActivos();
+
     Response deleteAmbiente(Long id);
 
     Ambiente getById(Long id);

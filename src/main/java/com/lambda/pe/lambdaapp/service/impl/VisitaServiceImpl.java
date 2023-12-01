@@ -7,6 +7,7 @@ import com.lambda.pe.lambdaapp.repository.AmbienteRepository;
 import com.lambda.pe.lambdaapp.repository.CatalogoDetalleRepository;
 import com.lambda.pe.lambdaapp.repository.ReservaRepository;
 import com.lambda.pe.lambdaapp.repository.VisitaRepository;
+import com.lambda.pe.lambdaapp.service.EmailService;
 import com.lambda.pe.lambdaapp.service.VisitaService;
 import com.lambda.pe.lambdaapp.util.CatalogoEnum;
 import com.lambda.pe.lambdaapp.util.DateUtil;
@@ -32,12 +33,15 @@ public class VisitaServiceImpl implements VisitaService {
     private final JasperReportUtil jasperReportUtil;
     private final AmbienteRepository ambienteRepository;
     private final ReservaRepository reservaRepository;
-    public VisitaServiceImpl(VisitaRepository visitaRepository, CatalogoDetalleRepository catalogoDetalleRepository, JasperReportUtil jasperReportUtil, AmbienteRepository ambienteRepository, ReservaRepository reservaService) {
+
+    private final EmailService emailService;
+    public VisitaServiceImpl(VisitaRepository visitaRepository, CatalogoDetalleRepository catalogoDetalleRepository, JasperReportUtil jasperReportUtil, AmbienteRepository ambienteRepository, ReservaRepository reservaService, EmailService emailService) {
         this.visitaRepository = visitaRepository;
         this.catalogoDetalleRepository = catalogoDetalleRepository;
         this.jasperReportUtil = jasperReportUtil;
         this.ambienteRepository = ambienteRepository;
         this.reservaRepository = reservaService;
+        this.emailService = emailService;
     }
     @Override
 
@@ -68,12 +72,22 @@ public class VisitaServiceImpl implements VisitaService {
                 reservaRepository.delete(visitante.getReservaEstacionamiento());
                 visitante.setReservaEstacionamiento(null);
             }
-            reservaRepository.delete(visitante.getReservaVisita());
-            visitante.setReservaVisita(null);
+            emailService.send(
+                    "lambdaapp@gmail.com",
+                    visitante.getCorreo(),
+                    "SE HA CANCELADO SU VISITA",
+                    "Su visita en las oficinas de LAMBDA SAC el día " +
+                            DateUtil.convertDateToString(visitante.getReservaVisita().getInit(), DateUtil.FORMAT_DATE) +
+                            "a las " + DateUtil.convertDateToString(visitante.getReservaVisita().getInit(), DateUtil.FORMAT_HOUR) + " hasta las "+
+                            DateUtil.convertDateToString(visitante.getReservaVisita().getEnd(), DateUtil.FORMAT_HOUR) + " FUE CANCELADA");
+            Reserva reservaVisita = visitante.getReservaVisita();
             visitaRepository.delete(visitante);
+            reservaRepository.delete(reservaVisita);
+
             response.setId(id.toString());
             response.setMessage("OK");
             response.setHttpStatus(HttpStatus.OK);
+
         } catch (Exception ex){
             LOGGER.error(ex.getMessage(), ex);
             response.setId(id.toString());
@@ -146,6 +160,14 @@ public class VisitaServiceImpl implements VisitaService {
             visitante.setReservaVisita(reserva);
             visitante.setReservaEstacionamiento(reservaEstacionamiento);
             visitaRepository.save(visitante);
+            emailService.send(
+                    "lambdaapp@gmail.com",
+                    visitante.getCorreo(),
+                    "HA SIDO INVITADO A UNA VISITA",
+                    "Se le ha registrado para una visita en las oficinas de LAMBDA SAC el día " +
+                            DateUtil.convertDateToString(visitante.getReservaVisita().getInit(), DateUtil.FORMAT_DATE) +
+                    "a las " + DateUtil.convertDateToString(visitante.getReservaVisita().getInit(), DateUtil.FORMAT_HOUR) + " hasta las "+
+                            DateUtil.convertDateToString(visitante.getReservaVisita().getEnd(), DateUtil.FORMAT_HOUR));
             response.setId(String.valueOf(visitante.getId()));
             response.setMessage("OK");
             response.setHttpStatus(HttpStatus.OK);

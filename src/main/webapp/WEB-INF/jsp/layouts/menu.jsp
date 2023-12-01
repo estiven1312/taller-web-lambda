@@ -89,19 +89,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active text fw-bold"
-                       href="./panelItem-Sala-Gerente.html">Salas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active text fw-bold"
-                       href="./panelItem-Estacionamiento-Gerente.html">Estacionamientos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active text fw-bold"
                        href="<%=request.getContextPath()%>/user">Mi perfil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active text fw-bold" href="./login.html">Cerrar
-                        sesión</a>
+                    <a class="nav-link active text fw-bold" href="<%=request.getContextPath()%>/incidencia/register-page">Registrar incidencia</a>
                 </li>
             </ul>
         </div>

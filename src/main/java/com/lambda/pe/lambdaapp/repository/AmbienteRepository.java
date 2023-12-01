@@ -30,4 +30,7 @@ public interface AmbienteRepository extends JpaRepository<Ambiente, Long> {
                                           @Param("tipo") String tipo,
                                           @Param("estadoCatalogo") String abreviaturaEstadoCatalogo,
                                           @Param("estadoAmbiente") String estadoAmbiente);
+
+    @Query("SELECT a FROM Ambiente a WHERE a.estado.abreviatura <> 'ELIMINADO'")
+    List<Ambiente> findAmbientesActivos();
 }

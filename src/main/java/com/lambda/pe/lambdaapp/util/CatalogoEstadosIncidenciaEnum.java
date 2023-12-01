@@ -3,6 +3,8 @@ package com.lambda.pe.lambdaapp.util;
 public enum CatalogoEstadosIncidenciaEnum {
     ESTADO_REGISTRADO("REGISTRADO"),
     ESTADO_EN_PROCESO("PROCESO"),
+    ESTADO_ELIMINADO("ELIMINADO"),
+
 
     ESTADO_RESUELTO("RESUELTO");
     private final String label;
