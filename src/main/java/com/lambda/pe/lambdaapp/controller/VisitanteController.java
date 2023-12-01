@@ -88,8 +88,8 @@ public class VisitanteController {
             @RequestParam(name= "date", required=false, defaultValue = "false") String date,
             @RequestParam(name= "end", required=false, defaultValue = "false") String end,
             @RequestParam(name= "init",  required=false, defaultValue = "false") String init,
-            @RequestParam(name= "idEstacionamiento", defaultValue = "null") Long idEstacionamiento,
-            @RequestParam(name= "idAmbiente", defaultValue = "null") Long idAmbiente,
+            @RequestParam(name= "idEstacionamiento", defaultValue = "") Long idEstacionamiento,
+            @RequestParam(name= "idAmbiente", defaultValue = "") Long idAmbiente,
 
             Model model,
             HttpSession httpSession) {

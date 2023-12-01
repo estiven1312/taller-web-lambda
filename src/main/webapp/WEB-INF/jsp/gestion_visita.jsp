@@ -20,21 +20,7 @@
 <main class="d-flex align-items-center justify-content-center     flex-column">
     <div
             class="pt-5 pb-4 d-flex flex-row flex-wrap align-items-center justify-content-center">
-        <div class="m-2">
-            <form class="text d-flex flex-wrap" role="search">
-                <input type="date" class="form-control text m-2 filter-input"
-                       id="fechaInicioFiltro" type="search" placeholder="Search"
-                       aria-label="Search" />
-                <input type="date" class="form-control text m-2 filter-input"
-                       id="fechaFinFiltro" type="search" placeholder="Search"
-                       aria-label="Search" />
-                <button
-                        class="border border-0 rounded-2 py-2 px-3 text-white button button--dark m-2 fw-bold"
-                        type="submit">
-                    Search
-                </button>
-            </form>
-        </div>
+
         <button
                 class="button button--yellow py-1 px-3 text fw-bold rounded-2 my-2 mx-4 d-flex align-items-center justify-content-center flex-wrap"
                 data-bs-toggle="modal"
@@ -65,7 +51,7 @@
                                        class="col-form-label text fw-bold">Nº Sala</label>
                                 <select name="idAmbiente" id="idAmbiente"
                                         class="form-select form-control">
-                                    <option value="null">No Sala</option>
+                                    <option value="">No Sala</option>
                                     <%for(int i=0; i<salas.size(); i++) { %>
                                         <option value="<%=salas.get(i).getId()%>"><%=salas.get(i).getNombreAmbiente()%></option>
                                     <%}%>
@@ -145,7 +131,7 @@
                                        class="col-form-label text fw-bold">Nº Estacionamiento</label>
                                 <select name="idEstacionamiento" id="idEstacionamiento"
                                         class="form-select form-control">
-                                    <option value="null">No Estacionamiento </option>
+                                    <option value="">No Estacionamiento </option>
                                     <%for(int i=0; i<estacionamientos.size(); i++) { %>
                                     <option value="<%=estacionamientos.get(i).getId()%>"><%=estacionamientos.get(i).getNombreAmbiente()%></option>
                                     <%}%>
@@ -212,9 +198,9 @@
                                        class="col-form-label text fw-bold">Nº Sala</label>
                                 <select name="idAmbiente" id="idAmbiente1"
                                         class="form-select form-control">
-                                    <option value="null">No Sala</option>
+                                    <option value="">No Sala</option>
                                     <%for(int j=0; j<salas.size(); j++) { %>
-                                    <option value="<%=salas.get(j).getId()%>" <%=salas.get(j).getId().equals(visitantes.get(i).getReservaVisita().getAmbiente().getId())?"selected":""%>><%=salas.get(j).getNombreAmbiente()%></option>
+                                    <option value="<%=salas.get(j).getId()%>" <%=visitantes.get(i).getReservaVisita().getAmbiente() != null && salas.get(j).getId().equals(visitantes.get(i).getReservaVisita().getAmbiente().getId())?"selected":""%>><%=salas.get(j).getNombreAmbiente()%></option>
                                     <%}%>
                                 </select>
                             </div>
@@ -295,7 +281,7 @@
                                        class="col-form-label text fw-bold">Nº Estacionamiento</label>
                                 <select name="idEstacionamiento" id="idEstacionamiento1"
                                         class="form-select form-control">
-                                    <option value="null">No Estacionamiento</option>
+                                    <option value="">No Estacionamiento</option>
                                     <%for(int h=0; h<estacionamientos.size(); h++) { %>
                                     <option value="<%=estacionamientos.get(h).getId()%>" <%=visitantes.get(i).getReservaEstacionamiento() != null && estacionamientos.get(h).getId().equals(visitantes.get(i).getReservaEstacionamiento().getAmbiente().getId()) ? "selected":""%>><%=estacionamientos.get(h).getNombreAmbiente()%></option>
                                     <%}%>
