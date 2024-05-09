@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,15 +52,17 @@ public class VisitaServiceImpl implements VisitaService {
 
     @Override
     public byte[] getReporte() throws JRException, FileNotFoundException {
-        List<VisitaDTO> visitaDTOS = getVisitantesSeguridadPorDia().stream().map(visitante -> {
+        List<VisitaDTO> visitaDTOS = new ArrayList<>();
+        List<Visitante> visitantes = getVisitantesSeguridadPorDia();
+        for(Visitante v: visitantes){
             VisitaDTO visitaDTO = new VisitaDTO();
-            visitaDTO.setNombres(visitante.getNombres());
-            visitaDTO.setApellidos(visitante.getApellidos());
-            visitaDTO.setFechaVisita(visitante.getReservaVisita().getInit());
-            visitaDTO.setDni(visitante.getDni());
-            visitaDTO.setCorreo(visitante.getCorreo());
-            return visitaDTO;
-        }).toList();
+            visitaDTO.setNombres(v.getNombres());
+            visitaDTO.setApellidos(v.getApellidos());
+            visitaDTO.setFechaVisita(v.getReservaVisita().getInit());
+            visitaDTO.setDni(v.getDni());
+            visitaDTO.setCorreo(v.getCorreo());
+            visitaDTOS.add(visitaDTO);
+        }
         return jasperReportUtil.exportToPdf(visitaDTOS);
     }
     @Override

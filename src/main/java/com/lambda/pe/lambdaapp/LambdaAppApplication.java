@@ -15,7 +15,7 @@ public class LambdaAppApplication {
         SpringApplication.run(LambdaAppApplication.class, args);
     }
     @Configuration
-    class WebConfiguration implements WebMvcConfigurer {
+    static class WebConfiguration implements WebMvcConfigurer {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**").allowedMethods("*");

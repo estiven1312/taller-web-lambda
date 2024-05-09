@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 
 @Data
@@ -13,7 +12,6 @@ import java.io.Serializable;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "catalogoDetalle")
 public class CatalogoDetalle implements Serializable{
-    @Serial
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
@@ -31,7 +29,6 @@ public class CatalogoDetalle implements Serializable{
     @Embeddable
     @EqualsAndHashCode
     public static class Id implements Serializable {
-        @Serial
         private static final long serialVersionUID = 1L;
         private Long idCatalogo;
         private String idItem;
