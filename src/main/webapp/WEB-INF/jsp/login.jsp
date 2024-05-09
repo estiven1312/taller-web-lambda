@@ -27,7 +27,7 @@
         <div
                 class="navbar-brand d-flex flex-row justify-content-center align-items-center flex-wrap flex-lg-nowrap"
         >
-            <h1 class="title lilita_font display-1 m-0 h-1 text-white">LAMBDA</h1>
+            <h1 class="title lilita_font display-1 m-0 h-1 text-white">LAMBDA - Bienvenido</h1>
             <div class="logo">
                 <a href="./index.html">
                     <img
