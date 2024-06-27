@@ -1,4 +1,4 @@
-const wsRoot = "http://localhost:8080/"
+const wsRoot = "http://64.23.217.53:8080/"
 $(document).ready(async function () {
 
     $("#btnActualizarPerfil").click(async function () {

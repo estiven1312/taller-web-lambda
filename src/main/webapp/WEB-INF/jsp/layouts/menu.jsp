@@ -94,6 +94,10 @@
                 <li class="nav-item">
                     <a class="nav-link active text fw-bold" href="<%=request.getContextPath()%>/incidencia/register-page">Registrar incidencia</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active text fw-bold" aria-current="page"
+                       href="<%=request.getContextPath()%>/reportes">Reportar</a>
+                </li>
             </ul>
         </div>
 
