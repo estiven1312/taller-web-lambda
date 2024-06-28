@@ -99,7 +99,9 @@
     </dependencies>
 
     <build>
+
         <!--
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -109,7 +111,9 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
         -->
+
         <finalName>LambdaApp</finalName>
         <plugins>
             <plugin>
@@ -128,8 +132,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
+
             <!--
              <plugin>
+
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <version>${dependency-check.version}</version>
@@ -150,6 +156,4 @@
 
         </plugins>
     </build>
-
-
 </project>

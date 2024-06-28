@@ -43,32 +43,37 @@ public class ReporteServiceImpl implements ReporteService {
         Response<ResponseValidation> responseRetrofit = call.execute();
         ResponseValidation validationResult = responseRetrofit.body();
         log.info(responseRetrofit.toString());
+              if(!validateImage(multipartFile)){
+            throw new RuntimeException("Invalid image");
+        }
 
-        if(validationResult.getPrediction().equals("trash")){
-            Reporte reporte = new Reporte();
-            if(multipartFile != null && !multipartFile.isEmpty()){
-                String uuid = UUID.randomUUID().toString();
-                String filename = uuid +
-                        multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
-                reporte.setRutaImagen(filename);
-                if(Files.notExists(Paths.get(fileConfig.getSTORAGEPATH()))){
-                    Files.createDirectories(Paths.get(fileConfig.getSTORAGEPATH()));
-                }
-                Files.copy(multipartFile.getInputStream(), Paths.get(fileConfig.getSTORAGEPATH()).resolve(filename));
-            }
-            reporte.setComentario(comentario);
-            reporte.setReferencia(referencia);
-            reporte.setUsuario(user.getUsername());
-            reporteRepository.save(reporte);
-        } else {
+        if(!validationResult.getPrediction().equals("trash")){
             throw new RuntimeException("Not trash");
         }
+        Reporte reporte = createReport(multipartFile, comentario, referencia, user.getUsername());
+        reporteRepository.save(reporte);
     }
     @Override
     public List<Reporte> listReports(){
         return reporteRepository.findAll();
     }
+    private Reporte createReport(MultipartFile file, String comentario, String referencia, String username) throws IOException {
+        Reporte reporte = new Reporte();
+        String uuid = UUID.randomUUID().toString();
+        String filename = uuid + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        reporte.setRutaImagen(filename);
 
+        if(Files.notExists(Paths.get(fileConfig.getSTORAGEPATH()))){
+            Files.createDirectories(Paths.get(fileConfig.getSTORAGEPATH()));
+        }
+        Files.copy(file.getInputStream(), Paths.get(fileConfig.getSTORAGEPATH()).resolve(filename));
+
+        reporte.setComentario(comentario);
+        reporte.setReferencia(referencia);
+        reporte.setUsuario(username);
+
+        return reporte;
+    }
     private   File convertMultiPartFileToFile(MultipartFile file) {
         File convertedFile = new File(file.getOriginalFilename());
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
@@ -77,5 +82,9 @@ public class ReporteServiceImpl implements ReporteService {
             log.error("Error converting multipartFile to file", e);
         }
         return convertedFile;
+    }
+    private boolean validateImage(MultipartFile imagen) {
+        String contentType = imagen.getContentType();
+        return contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/jpg");
     }
 }
