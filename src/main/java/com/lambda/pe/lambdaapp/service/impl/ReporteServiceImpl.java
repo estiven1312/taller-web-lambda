@@ -34,7 +34,7 @@ public class ReporteServiceImpl implements ReporteService {
     private final ServiceGenerator serviceGenerator;
     private final FileConfig fileConfig;
     @Override
-    public void registerReport(MultipartFile multipartFile, String referencia, String comentario, User user) throws IOException {
+    public void registerReport(MultipartFile multipartFile, String referencia, String comentario, User user) throws IOException, RuntimeException {
         ValidateImageRequest validateImageRequest = serviceGenerator.createService(ValidateImageRequest.class);
         File file = convertMultiPartFileToFile(multipartFile);
         RequestBody requestFile = RequestBody.create(MediaType.parse(multipartFile.getContentType()), file);
@@ -47,7 +47,8 @@ public class ReporteServiceImpl implements ReporteService {
             throw new RuntimeException("Invalid image");
         }
 
-        if(!validationResult.getPrediction().equals("trash")){
+        if(validationResult == null || validationResult.getPrediction() == null || !validationResult.getPrediction().equals("trash")){
+
             throw new RuntimeException("Not trash");
         }
         Reporte reporte = createReport(multipartFile, comentario, referencia, user.getUsername());

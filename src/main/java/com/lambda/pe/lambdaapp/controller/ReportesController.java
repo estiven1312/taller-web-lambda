@@ -1,6 +1,5 @@
 package com.lambda.pe.lambdaapp.controller;
 
-import com.lambda.pe.lambdaapp.domain.dto.UserDTO;
 import com.lambda.pe.lambdaapp.domain.model.User;
 import com.lambda.pe.lambdaapp.service.ReporteService;
 import com.lambda.pe.lambdaapp.util.Constants;
@@ -17,29 +16,32 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/reportes")
 @Slf4j
 public class ReportesController {
 
     private final ReporteService reporteService;
-    @RequestMapping( method = RequestMethod.GET)
+    @RequestMapping(value = "/reportes", method = RequestMethod.GET)
     public String getPage(Model model, HttpSession httpSession){
         User user = (User) httpSession.getAttribute(Constants.USER_KEY_SESSION.label);
-        return "/report_garbage";
+        return "reportes";
     }
 
-    @RequestMapping(value = "/registrar", method = RequestMethod.POST)
+    @RequestMapping(value = "/reportes", method = RequestMethod.POST)
     public String actualizar(@RequestParam(name="imagen", required=false) MultipartFile imagen,
                              @RequestParam(name="comentario", required=false) String comentario,
                              @RequestParam(name="referencia", required=false) String referencia,
-                             HttpSession httpSession){
+                             HttpSession httpSession,Model model){
         User user = (User) httpSession.getAttribute(Constants.USER_KEY_SESSION.label);
         try{
             reporteService.registerReport(imagen, referencia, comentario, user);
+            model.addAttribute("okMessage", "Se registró correctamente");
+
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            model.addAttribute("errorMessage", "No se pudo registrar el reporte, no se detectó basura o no es un formato .jpeg, jpg o png");
+
         }
         System.gc();
-        return "redirect:/reportes";
+        return "/reportes";
     }
 }

@@ -9,12 +9,30 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     HttpSession sessions=request.getSession(false);
-    User user=(User) sessions.getAttribute(Constants.USER_KEY_SESSION.label); %>
+    User user=(User) sessions.getAttribute(Constants.USER_KEY_SESSION.label);
+    String errors = (String) request.getAttribute("errorMessage");
+    String ok = (String) request.getAttribute("okMessage");
+%>
+
 <jsp:include page="layouts/menu.jsp"></jsp:include>
+<% if(errors != null && !errors.isEmpty() ){%>
+<div class="alert alert-danger mt-1" role="alert">
+    <%=errors%>
+</div>
+<%
+    }
+%>
+<% if(ok != null && !ok.isEmpty() ){%>
+<div class="alert alert-primary mt-1" role="alert">
+    <%=ok%>
+</div>
+<%
+    }
+%>
 <main
         class="mt-2 container"
 >
-    <form class="row" method="POST" enctype="multipart/form-data" action="reportes/registrar" >
+    <form class="row" method="post" enctype="multipart/form-data" action="reportes" >
         <div class="col-12">
             <h1 class="text fs-1 fw-bold text-center pb-4">Reporte de residuos</h1>
         </div>
