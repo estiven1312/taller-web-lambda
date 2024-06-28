@@ -48,6 +48,7 @@ public class ReporteServiceImpl implements ReporteService {
         }
 
         if(validationResult == null || validationResult.getPrediction() == null || !validationResult.getPrediction().equals("trash")){
+
             throw new RuntimeException("Not trash");
         }
         Reporte reporte = createReport(multipartFile, comentario, referencia, user.getUsername());
