@@ -43,7 +43,7 @@ public class ReporteServiceImpl implements ReporteService {
         Response<ResponseValidation> responseRetrofit = call.execute();
         ResponseValidation validationResult = responseRetrofit.body();
         log.info(responseRetrofit.toString());
-        if(!validateImage(multipartFile)){
+              if(!validateImage(multipartFile)){
             throw new RuntimeException("Invalid image");
         }
 
@@ -83,7 +83,6 @@ public class ReporteServiceImpl implements ReporteService {
         }
         return convertedFile;
     }
-
     private boolean validateImage(MultipartFile imagen) {
         String contentType = imagen.getContentType();
         return contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/jpg");

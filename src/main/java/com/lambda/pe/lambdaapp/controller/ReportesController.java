@@ -33,8 +33,6 @@ public class ReportesController {
                              @RequestParam(name="comentario", required=false) String comentario,
                              @RequestParam(name="referencia", required=false) String referencia,
                              HttpSession httpSession){
-        //validate imagen only jpeg, png or jpg
-
         User user = (User) httpSession.getAttribute(Constants.USER_KEY_SESSION.label);
         try{
             reporteService.registerReport(imagen, referencia, comentario, user);
